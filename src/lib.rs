@@ -1,18 +1,24 @@
+use std::collections::VecDeque;
+
 struct Queue<T> {
-    pub items: Vec<T>,
+    pub items: VecDeque<T>,
 }
 
 impl<T> Queue<T> {
     pub fn new() -> Queue<T> {
-        Queue { items: Vec::new() }
+        Queue {
+            items: VecDeque::new(),
+        }
     }
 
     pub fn enqueue(&mut self, v: T) {
-        self.items.push(v)
+        self.items.push_back(v)
     }
 
     pub fn dequeue(&mut self) -> T {
-        self.items.remove(0)
+        self.items
+            .pop_front()
+            .expect("Cannot dequeue from empty queue.")
     }
 
     pub fn is_empty(&self) -> bool {
