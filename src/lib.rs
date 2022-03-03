@@ -29,7 +29,7 @@ impl<T> Queue<T> {
 type Vertex = Vec<u32>;
 type Graph = Vec<Vertex>;
 
-fn bfs(graph: Graph, start_node: u32, end_node: u32) -> Vec<Option<u32>> {
+fn bfs(graph: Graph, start_node: u32, end_node: u32) -> Option<Vec<Option<u32>>> {
     let mut queue = Queue::new();
     queue.enqueue(start_node);
 
@@ -64,8 +64,8 @@ fn bfs(graph: Graph, start_node: u32, end_node: u32) -> Vec<Option<u32>> {
     path.reverse();
 
     return match path[0] {
-        Some(x) if x == start_node => path,
-        _ => vec![],
+        Some(x) if x == start_node => Some(path),
+        _ => None,
     };
 }
 
@@ -87,7 +87,7 @@ mod tests {
         ];
 
         assert_eq!(
-            bfs(G, 0, 7),
+            bfs(G, 0, 7).unwrap(),
             vec![Some(0), Some(1), Some(3), Some(5), Some(6), Some(7)]
         )
     }
@@ -105,6 +105,6 @@ mod tests {
             vec![6],
         ];
 
-        assert_eq!(bfs(G, 0, 7), vec![])
+        assert_eq!(bfs(G, 0, 7), None)
     }
 }
